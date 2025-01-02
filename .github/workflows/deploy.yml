@@ -1,0 +1,50 @@
+name: Test ECR Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # Step 1: Create ECR Repository (if not already created)
+      - name: Create ECR Repository
+        run: |
+          aws ecr describe-repositories --repository-name prueba-final-devops || aws ecr create-repository --repository-name prueba-final-devops
+
+      # Step 2: Login to Amazon ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Step 3: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops .
+
+      # Step 4: Push Docker image to ECR
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops
+
+      # Step 5 (optional, comment out for testing): Deploy to ECS
+      # - name: Deploy to ECS
+      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      #   with:
+      #     cluster: cluster-prueba2-devops
+      #     service: serviceprueba2
+      #     task-definition: ./TaskPrueba2-revision4.json
