@@ -1,0 +1,30 @@
+{
+    "family": "TaskPrueba2",
+    "executionRoleArn": "arn:aws:iam::354918398201:role/ecsTaskExecutionRole",  
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "nginx-container",
+            "image": "354918398201.dkr.ecr.us-east-1.amazonaws.com/devops/prueba2:latest",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "systemControls": []
+        }
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "volumes": [],
+    "placementConstraints": [],
+    "requiresCompatibilities": ["FARGATE"]
+}
+
