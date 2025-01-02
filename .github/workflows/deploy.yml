@@ -1,4 +1,4 @@
-name: Test ECR Push
+name: Deploy to ECR and ECS
 
 on:
   push:
@@ -6,11 +6,10 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -19,7 +18,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}  # Ensure correct region here
 
       # Step 1: Create ECR Repository (if not already created)
       - name: Create ECR Repository
@@ -39,9 +38,9 @@ jobs:
       # Step 4: Push Docker image to ECR
       - name: Push Docker image to ECR
         run: |
-         docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest
 
-      # Step 5 (optional, comment out for testing): Deploy to ECS
+      # Step 5: Deploy to ECS (optional, re-enable when you're ready)
       # - name: Deploy to ECS
       #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       #   with:
