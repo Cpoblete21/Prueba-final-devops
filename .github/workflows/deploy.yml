@@ -34,7 +34,7 @@ jobs:
       # Step 3: Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops .
+          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest .
 
       # Step 4: Push Docker image to ECR
       - name: Push Docker image to ECR
