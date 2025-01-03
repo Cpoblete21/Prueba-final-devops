@@ -50,14 +50,14 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Make sure to set SNYK_TOKEN in GitHub secrets
 
-      # Optional Step: Scan Terraform files with Snyk
+      #  Scan Terraform files with Snyk
       - name: Scan Terraform files with Snyk
         run: |
           snyk test --all-projects
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Ensure SNYK_TOKEN is set as a secret in GitHub
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
 
-      # Optional Step: Run application security scan with Snyk
+      #  Run application security scan with Snyk
       - name: Scan application code with Snyk
         run: |
           snyk test
