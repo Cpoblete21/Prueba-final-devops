@@ -52,14 +52,14 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Make sure to set SNYK_TOKEN in GitHub secrets
           
-        # Step 2: List files in the Terraform/prueba_devops directory to verify
+        # debugging: List files in the Terraform/prueba_devops directory to verify
       - name: List files in the Terraform/prueba_devops directory
         run: ls -R ./Terraform/prueba_devops
 
       #  Scan Terraform files with Snyk
       - name: Scan Terraform files with Snyk
         run: |
-          snyk test --file=./Terraform/prueba_devops/*.tf
+          snyk test --file=./Terraform/prueba_devops/**/*.tf
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
 
