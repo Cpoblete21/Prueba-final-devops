@@ -59,7 +59,7 @@ jobs:
       #  Scan Terraform files with Snyk
       - name: Scan Terraform files with Snyk
         run: |
-          snyk test --file=./Terraform/prueba_devops/**/*.tf
+          find ./Terraform/prueba_devops -name "*.tf" -exec snyk test --file={} \;
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
 
