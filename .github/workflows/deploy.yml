@@ -39,8 +39,11 @@ jobs:
       - name: Push Docker image to ECR
         run: |
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest
-          
-      # Step 5: Scan Docker image with Snyk (after pushing to ECR)
+       # Step 5: Install Snyk CLI
+      - name: Install Snyk CLI
+        run: |
+          npm install -g snyk  # Install Snyk globally    
+      # Step 6: Scan Docker image with Snyk (after pushing to ECR)
       - name: Scan Docker image in ECR with Snyk
         run: |
           snyk container test ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest
