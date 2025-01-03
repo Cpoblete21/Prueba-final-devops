@@ -39,7 +39,27 @@ jobs:
       - name: Push Docker image to ECR
         run: |
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest
+          
+      # Step 5: Scan Docker image with Snyk (after pushing to ECR)
+      - name: Scan Docker image in ECR with Snyk
+        run: |
+          snyk container test ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Make sure to set SNYK_TOKEN in GitHub secrets
 
+      # Optional Step: Scan Terraform files with Snyk
+      - name: Scan Terraform files with Snyk
+        run: |
+          snyk test --all-projects --file=./path-to-your-terraform-directory/terraform.tf
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Ensure SNYK_TOKEN is set as a secret in GitHub
+
+      # Optional Step: Run application security scan with Snyk
+      - name: Scan application code with Snyk
+        run: |
+          snyk test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       # Step 5: Deploy to ECS (optional, re-enable when you're ready)
       # - name: Deploy to ECS
       #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
