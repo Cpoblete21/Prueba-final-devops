@@ -1,5 +1,5 @@
 # Use the official Nginx image from Docker Hub
-FROM nginx:latest
+FROM nginx:stable-alpine
 
 # Copy the static HTML page into the container
 COPY ./index.html /usr/share/nginx/html/index.html
