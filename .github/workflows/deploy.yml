@@ -53,7 +53,7 @@ jobs:
       # Optional Step: Scan Terraform files with Snyk
       - name: Scan Terraform files with Snyk
         run: |
-          snyk test --all-projects --file=./path-to-your-terraform-directory/terraform.tf
+          snyk test  --file=./path-to-your-terraform-directory/terraform.tf
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Ensure SNYK_TOKEN is set as a secret in GitHub
 
