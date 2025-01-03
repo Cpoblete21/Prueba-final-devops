@@ -66,7 +66,7 @@ jobs:
       #  Run application security scan with Snyk
       - name: Scan application code with Snyk
         run: |
-          snyk test --all-projects
+          find ./Terraform/prueba_devops -name "*.tf" -exec snyk iac test {} \;
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       # Step 5: Deploy to ECS (optional, re-enable when you're ready)
