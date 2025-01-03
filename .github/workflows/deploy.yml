@@ -42,18 +42,24 @@ jobs:
        # Step 5: Install Snyk CLI
       - name: Install Snyk CLI
         run: |
-          npm install -g snyk  # Install Snyk globally    
+          npm install -g snyk  # Install Snyk globally  
+
+      
       # Step 6: Scan Docker image with Snyk (after pushing to ECR)
       - name: Scan Docker image in ECR with Snyk
         run: |
           snyk container test ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/prueba-final-devops:latest || true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Make sure to set SNYK_TOKEN in GitHub secrets
+          
+        # Step 2: List files in the Terraform/prueba_devops directory to verify
+      - name: List files in the Terraform/prueba_devops directory
+        run: ls -R ./Terraform/prueba_devops
 
       #  Scan Terraform files with Snyk
       - name: Scan Terraform files with Snyk
         run: |
-          snyk test --all-projects
+          snyk test --file=./Terraform/prueba_devops/*.tf
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
 
